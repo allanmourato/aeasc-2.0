@@ -5,63 +5,68 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.hibernate.cfg.Environment;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import br.com.abm.dao.CategoriaSocioDao;
+import br.com.abm.dao.SocioDao;
+import br.com.abm.model.Socio;
+
+@Configuration
+@EnableJpaRepositories(basePackageClasses = {SocioDao.class,
+		CategoriaSocioDao.class}, enableDefaultTransactions = false )
 @EnableTransactionManagement
 public class JPAConfig {
-	
-	
+
 	@Bean
-	   public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-	      LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-	      em.setDataSource(dataSource);
-	      em.setPackagesToScan(new String[] { "br.com.abm.model" });
-	 
-	      JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-	      em.setJpaVendorAdapter(vendorAdapter);
-	      em.setJpaProperties(additionalProperties());
-	 
-	      return em;
-	   }
-	 
-	   @Bean	   
-	   @Profile("dev")
-	   public DataSource dataSource(Environment environment){
-	      DriverManagerDataSource dataSource = new DriverManagerDataSource();
-	      dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-	      dataSource.setUrl("jdbc:mysql://localhost:3306/projetoDB");
-	      dataSource.setUsername( "root" );
-	      dataSource.setPassword( "" );
-	      return dataSource;
-	   }
-	 
-	   @Bean
-	   public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
-	      JpaTransactionManager transactionManager = new JpaTransactionManager();
-	      transactionManager.setEntityManagerFactory(emf);	 
-	      return transactionManager;
-	   }
-	 
-	   @Bean
-	   public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
-	      return new PersistenceExceptionTranslationPostProcessor();
-	   }
-	 
-	   Properties additionalProperties() {
+	public DataSource dataSource() {
+		JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
+		dataSourceLookup.setResourceRef(true);
+		return dataSourceLookup.getDataSource("jdbc/projetoDB");
+	}
+
+	@Bean
+	public JpaVendorAdapter jpaVendorAdapter() {
+		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+		adapter.setDatabase(Database.MYSQL);
+		adapter.setShowSql(true);
+		adapter.setGenerateDdl(true);
+		adapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
+		return adapter;
+	}
+
+	@Bean
+	public EntityManagerFactory entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+		factory.setDataSource(dataSource);
+		factory.setJpaVendorAdapter(jpaVendorAdapter);
+		factory.setPackagesToScan(Socio.class.getPackage().getName());
+		factory.afterPropertiesSet();
+		factory.setJpaProperties(additionalProperties());
+		return factory.getObject();
+	}
+
+	@Bean
+	public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+		JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(entityManagerFactory);
+		return transactionManager;
+	}
+	
+	Properties additionalProperties() {
 	      Properties properties = new Properties();
 	      properties.setProperty("hibernate.hbm2ddl.auto", "update");
 	      properties.setProperty("hibernate.show_sql", "true");
 	      return properties;
 	   }
-	
+
 }

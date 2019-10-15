@@ -17,7 +17,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -71,12 +70,6 @@ public class Socio implements Serializable {
 	@JoinColumn(name = "codigo_endereco")
 	private Endereco endereco;
 	
-	@NotNull
-	@ManyToOne
-	@Column(name = "usuario_resposavel")
-	private UsuarioResposavel usuarioResponsavel;
-	
-	
 	
 	
 	//Dados Complementares
@@ -92,8 +85,6 @@ public class Socio implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Desligamento desligamento;
 
-	
-	
 	public Long getId() {
 		return id;
 	}
@@ -190,14 +181,6 @@ public class Socio implements Serializable {
 		this.endereco = endereco;
 	}
 
-	public UsuarioResposavel getUsuarioResponsavel() {
-		return usuarioResponsavel;
-	}
-
-	public void setUsuarioResponsavel(UsuarioResposavel usuarioResponsavel) {
-		this.usuarioResponsavel = usuarioResponsavel;
-	}
-
 	public Date getDataDeCadastro() {
 		return dataDeCadastro;
 	}
@@ -212,6 +195,14 @@ public class Socio implements Serializable {
 
 	public void setSenhaDeSocio(String senhaDeSocio) {
 		this.senhaDeSocio = senhaDeSocio;
+	}
+
+	public Desligamento getDesligamento() {
+		return desligamento;
+	}
+
+	public void setDesligamento(Desligamento desligamento) {
+		this.desligamento = desligamento;
 	}
 
 	@Override
@@ -251,19 +242,9 @@ public class Socio implements Serializable {
 		return true;
 	}
 
-	public Desligamento getDesligamento() {
-		return desligamento;
-	}
-
-	public void setDesligamento(Desligamento desligamento) {
-		this.desligamento = desligamento;
-	}
 	
 	
 	
-	
-	
-
 	
 
 }

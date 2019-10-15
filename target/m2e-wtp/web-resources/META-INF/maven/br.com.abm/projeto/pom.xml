@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
@@ -18,41 +17,48 @@
 
 		<java.version>1.8</java.version>
 		<maven-compiler-pluging.version>3.2</maven-compiler-pluging.version>
-		<mysql-connector-java.version>5.1.39</mysql-connector-java.version>
+		<mysql-connector-java.version>5.1.48</mysql-connector-java.version>
 
 		<!-- Spring MVC -->
-		<spring-framework.version>4.3.0.RELEASE</spring-framework.version>
+		<spring-framework.version>4.3.1.RELEASE</spring-framework.version>
 
 		<!-- Servlet API -->
 		<servlet.version>3.1.0</servlet.version>
 
-		<!-- Thymeleaf -->
-		<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
-
+		<!-- JPA / Hibernate -->
+		<hibernate.version>5.1.0.Final</hibernate.version>
+		
 		<!-- Bean Validation / Hibernate Validator -->
 		<hibernate-validator.version>5.2.4.Final</hibernate-validator.version>
-
-		<!-- Thymeleaf - Layout Dialect -->
-		<thymeleaf-layout-dialect.version>2.3.0</thymeleaf-layout-dialect.version>
-		
-		<!-- JPA / Hibernate -->
-		<hibernate.version>4.3.0.Final</hibernate.version>
 		
 		<!-- Spring Data JPA -->
 		<spring-data-jpa.version>1.10.2.RELEASE</spring-data-jpa.version>
-		
-		<!-- Commons-Beanutils-->
+
+		<!-- Jackson - JSON -->
+		<jackson-core.version>2.7.5</jackson-core.version>
+
+		<!-- Thymeleaf -->
+		<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
+
+		<!-- Thymeleaf - Layout Dialect -->
+		<thymeleaf-layout-dialect.version>2.3.0</thymeleaf-layout-dialect.version>
+
+		<!-- Logging -->
+		<log4j.version>2.6</log4j.version>
+		<jcl-over-slf4j.version>1.7.21</jcl-over-slf4j.version>
+
+		<!-- Commons-Beanutils -->
 		<commons-beanutils-version>1.9.2</commons-beanutils-version>
-		
+
 		<!-- Junit -->
 		<junit-version>4.10</junit-version>
-		
+
 		<!-- Bopepo -->
 		<bopepo-version>0.2.3-SNAPSHOT</bopepo-version>
-		
+
 		<!-- Texgit -->
 		<texgit-version>0.2.0-SNAPSHOT</texgit-version>
-		
+
 		<!-- Commons I/O -->
 		<commons-version>2.4</commons-version>
 
@@ -88,6 +94,12 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Servlet API -->
@@ -113,13 +125,6 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<!-- Bean Validation / Hibernate Validator -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernate-validator.version}</version>
-			<scope>compile</scope>
-		</dependency>
 
 		<!-- Thymeleaf - Layout Dialect -->
 		<dependency>
@@ -127,51 +132,85 @@
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 			<version>${thymeleaf-layout-dialect.version}</version>
 		</dependency>
-		
-		<!-- configuracao jpa e driver -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.3.0.Final</version>
-		</dependency>
 
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.3.0.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.1-api</artifactId>
-			<version>1.0.0.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring-framework.version}</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.15</version>
-		</dependency>
-
-		<!-- JSR 303 with Hibernate Validator -->
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
-		</dependency>
+		<!-- Bean Validation / Hibernate Validator -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.1.0.Final</version>
+			<version>${hibernate-validator.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		
+		
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${jcl-over-slf4j.version}</version>
+		</dependency>
+
+		<!-- JPA / Hibernate -->
+		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Hibernate - Java 8 support -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-java8</artifactId>
+			<version>${hibernate.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Spring Data JPA -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring-data-jpa.version}</version>
+		</dependency>
+
+		<!-- Jackson - JSON -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-core.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<!-- MySQL Driver -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-java.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- commons beanutils -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -187,7 +226,7 @@
 			<version>${junit-version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Bopepo -->
 		<dependency>
 			<groupId>org.jrimum</groupId>
@@ -195,15 +234,7 @@
 			<version>${bopepo-version}</version>
 			<scope>compile</scope>
 		</dependency>
-		
-		<!-- javax.inject -->
 
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
-		</dependency>
-		
 		<!-- Texgit para arquivo de retorno -->
 		<dependency>
 			<groupId>org.jrimum</groupId>
@@ -225,7 +256,7 @@
 			<version>${commons-version}</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 	</dependencies>
 
 	<repositories>
@@ -237,7 +268,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-		
+
 		<repository>
 			<id>jrimum.org</id>
 			<url>http://jrimum.org/maven/content/groups/public</url>

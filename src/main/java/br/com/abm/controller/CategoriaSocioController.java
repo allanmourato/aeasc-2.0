@@ -1,6 +1,5 @@
 package br.com.abm.controller;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import br.com.abm.dao.CategoriaSocioDao;
 import br.com.abm.model.CategoriaSocio;
 
 @Controller
-@Transactional
 @RequestMapping("/categorias")
 public class CategoriaSocioController {
 	
