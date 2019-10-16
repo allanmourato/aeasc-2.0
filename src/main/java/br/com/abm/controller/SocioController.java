@@ -19,7 +19,7 @@ public class SocioController {
 	
 	@Autowired
 	private Categorias categorias;
-	
+
 	
 	@RequestMapping("/cadastro/socio")
 	public String cadastroSocio(Socio socio) {

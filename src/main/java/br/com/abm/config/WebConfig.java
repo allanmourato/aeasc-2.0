@@ -8,6 +8,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.support.DefaultFormattingConversionService;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -25,17 +27,16 @@ import br.com.abm.controller.CategoriaSocioController;
 import br.com.abm.controller.CobrancaController;
 import br.com.abm.controller.DashboardController;
 import br.com.abm.controller.SocioController;
-import br.com.abm.dao.CategoriaSocioDao;
-import br.com.abm.dao.SocioDao;
+import br.com.abm.controller.converter.CategoriaConverter;
+import br.com.abm.service.CategoriaSocioService;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
 @ComponentScan(basePackageClasses = { DashboardController.class, 
-		CobrancaController.class, 
-		SocioController.class, 
-		CategoriaSocioController.class,
-		SocioDao.class,
-		CategoriaSocioDao.class})
+									    CobrancaController.class, 
+										SocioController.class, 
+										CategoriaSocioController.class,
+										CategoriaSocioService.class})
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
@@ -76,6 +77,14 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+	}
+	
+	@Bean
+	public FormattingConversionService mvcConversionService() {
+		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
+		conversionService.addConverter(new CategoriaConverter());
+		
+		return conversionService;
 	}
 	
 	@Bean

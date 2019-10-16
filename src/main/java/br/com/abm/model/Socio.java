@@ -60,7 +60,7 @@ public class Socio implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "codigo_categoria")
 	@NotBlank(message = "Categoria é obrigatório")
-	private Categoria categoria;
+	private CategoriaSocio categoriaSocio;
 	
 	private String celular;
 	
@@ -149,12 +149,12 @@ public class Socio implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public Categoria getCategoria() {
-		return categoria;
+	public CategoriaSocio getCategoriaSocio() {
+		return categoriaSocio;
 	}
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
+	public void setCategoriaSocio(CategoriaSocio categoriaSocio) {
+		this.categoriaSocio = categoriaSocio;
 	}
 
 	public String getCelular() {
@@ -209,7 +209,6 @@ public class Socio implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((documento == null) ? 0 : documento.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
@@ -224,11 +223,6 @@ public class Socio implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Socio other = (Socio) obj;
-		if (documento == null) {
-			if (other.documento != null)
-				return false;
-		} else if (!documento.equals(other.documento))
-			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -242,7 +236,6 @@ public class Socio implements Serializable {
 		return true;
 	}
 
-	
 	
 	
 	

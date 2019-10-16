@@ -17,14 +17,12 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import br.com.abm.dao.CategoriaSocioDao;
-import br.com.abm.dao.SocioDao;
 import br.com.abm.model.Socio;
+import br.com.abm.repository.Categorias;
 
 @Configuration
-@EnableJpaRepositories(basePackageClasses = {SocioDao.class,
-		CategoriaSocioDao.class}, enableDefaultTransactions = false )
 @EnableTransactionManagement
+@EnableJpaRepositories(basePackageClasses = Categorias.class, enableDefaultTransactions = false)
 public class JPAConfig {
 
 	@Bean
@@ -39,7 +37,7 @@ public class JPAConfig {
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 		adapter.setDatabase(Database.MYSQL);
 		adapter.setShowSql(true);
-		adapter.setGenerateDdl(true);
+		adapter.setGenerateDdl(false);
 		adapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
 		return adapter;
 	}

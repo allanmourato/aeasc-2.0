@@ -1,31 +1,32 @@
 $(function() {
 	
 	var modal = $('#modalCadastroRapidoCategoria');
-	var botalSalvar = modal.find('.js-modal-cadastro-estilo-salvar-btn');
-	var form = modal.find('.js-modal-formulario-estilo');
+	var botalSalvar = modal.find('.js-modal-cadastro-categoria-salvar-btn');
+	var form = modal.find('.js-modal-formulario-categoria');
+	var comboCategoria = $('#comboCategoria');
 	
 	form.on('submit', function(e) { e.preventDefault() });
 	
 	var url = form.attr('action');
-	var imputNomeEstilo = modal.find('#nomeEstilo');
-	var containerMensagemError = $('.js-mensagem-cadastro-rapido-estilo')
+	var imputNomeCategoria= modal.find('#nomeCategoria');
+	var containerMensagemError = $('.js-mensagem-cadastro-rapido-categoria')
 	
 	modal.on('shown.bs.modal', onModalShow);
 	modal.on('hide.bs.modal', onModalClose);
 	modal.on('click', onBotaoSalvarClick);
 	
 	function onModalShow() {
-		nomeCategoria.focus();
+		imputNomeCategoria.focus();
 	}
 	
 	function onModalClose() {
-		nomeCategoria.val('');
+		imputNomeCategoria.val('');
 		containerMensagemError.addClass('hidden');
 		form.removeClass('has-error');
 	}
 	
 	function onBotaoSalvarClick() {
-		var nomeCategoria = nomeCategoria.val().trim();
+		var nomeCategoria = imputNomeCategoria.val().trim();
 		
 		$.ajax({
 			
@@ -35,10 +36,10 @@ $(function() {
 			data: JSON.stringify({ nome : nomeCategoria }),
 			error: onErrorSalvandoCategoria,
 			success: onCategoriaSalva
-		})
+		});
 	}
 	
-	function onErrorSalvandoEstilo(obj) {
+	function onErrorSalvandoCategoria(obj) {
 		var mensagens = obj.responseText;
 		containerMensagemError.removeClass('hidden');
 		containerMensagemError.html('<span>' + mensagens + '</span>' );
@@ -46,9 +47,10 @@ $(function() {
 		console.log(obj);
 	}
 	
-	function onEstiloSalvo(estilo) {
-		var comboEstilo = $('#estilo');
-		comboEstilo.append('<option value=' + categoria.id + '>' + categoria.nome + '</option>');
-		comboEstilo.val(estilo.codigo);
+	function onCategoriaSalva(categoria) {
+		var comboCategoria = $('#comboCategoria');
+		comboCategoria.append('<option value=' + categoria.id + '>' + categoria.nome + '</option>');
+		comboCategoria.val(categoria.id);
 		modal.modal('hide');
 	}
+});
