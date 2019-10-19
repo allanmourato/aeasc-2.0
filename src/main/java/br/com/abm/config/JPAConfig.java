@@ -22,7 +22,7 @@ import br.com.abm.repository.Categorias;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackageClasses = Categorias.class, enableDefaultTransactions = false)
+@EnableJpaRepositories(basePackageClasses = Categorias.class)
 public class JPAConfig {
 
 	@Bean
@@ -37,7 +37,7 @@ public class JPAConfig {
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 		adapter.setDatabase(Database.MYSQL);
 		adapter.setShowSql(true);
-		adapter.setGenerateDdl(false);
+		adapter.setGenerateDdl(true);
 		adapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
 		return adapter;
 	}

@@ -13,7 +13,9 @@
 <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/algaworks.min.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/application.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/form.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/bootstrap-datetimepicker.min.css}"/>
 
+<link rel="stylesheet" type="text/css" th:href="@{http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css}" />
 
 <link rel="shortcut icon" th:href="@{/images/favicon.png}" />
 
@@ -39,10 +41,16 @@
 	<script th:src="@{/layout/javascripts/vendors.min.js}"></script>
 	<script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
 	<script th:src="@{/layout/javascripts/cadastro-rapido-categoria.js}"></script>
-
-	<script th:src="@{/layout/javascripts/vendors/jquery.maskMoney.min.js}"></script>
-
+	<script th:src="@{/layout/javascripts/bootstrap-datetimepicker.min.js}"></script>
+	
+	<script th:src="@{/layout/javascripts/mascara-telefone.js}"></script>
+	
+	<script th:src="@{/layout/javascripts/jquery.mask.min.js}"></script>
+	<script th:src="@{/layout/javascripts/mascara-cpf-cnpj.js}"></script>
+	
 	<script th:src="@{/layout/javascripts/projeto.js}"></script>
+	
+	<script th:src="@{/layout/javascripts/busca-endereco.js}"></script>
 
 	<th:block layout:fragment="javascript-extra"></th:block>
 </body>

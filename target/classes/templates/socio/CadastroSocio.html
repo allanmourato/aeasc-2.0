@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:th="http://www.thymeleaf.org"
+	xmlns:data="http://www.thymeleaf.org/extras/data"
 	layout:decorator="'layout/LayoutPadrao'">
 
 <head>
@@ -50,14 +51,15 @@
 					th:classappend="${#fields.hasErrors('tipoPessoa')} ? has-error">
 					<label for="tipoPessoa" class="control-label">Pessoa</label>
 					<div>
-						<label class="radio-inline"><input
-							class="js-campo-profissional" type="radio" name="tipoPessoa"
-							th:value="Fisica" th:field="*{tipoPessoa}">Física</label> <label
-							class="radio-inline"><input class="js-campo-profissional"
-							type="radio" name="tipoPessoa" th:value="Juridica"
-							th:field="*{tipoPessoa}">Jurídica</label>
+						<th:block th:each="tipoPessoa : ${tipoPessoa}">
+							<div class="radio  radio-inline">
+								<input th:id="|id_${tipoPessoa}|" th:value="${tipoPessoa}" type="radio" name="tipoPessoa" th:field="*{tipoPessoa}"> 
+								<label th:for="|id_${tipoPessoa}|" th:text="${tipoPessoa.descricao}" >Física</label>
+							</div>
+						</th:block>
 					</div>
 				</div>
+
 
 				<div class="form-group col-sm-4"
 					th:classappend="${#fields.hasErrors('nome')} ? has-error">
@@ -76,18 +78,19 @@
 
 
 			<div class="row">
-				
+
 				<div class="form-group col-sm-4">
-					
-					<label for="categoria" class="control-label">Categoria</label> 
-					
+
+					<label for="categoria" class="control-label">Categoria</label>
+
 					<div class="bw-field-action">
-						<select id="comboCategoria" class="form-control" th:field="*{categoriaSocio}">
+						<select id="comboCategoria" class="form-control"
+							th:field="*{categoriaSocio}">
 							<option value="">Selecione uma categoria</option>
 							<option th:each="categoria : ${categorias}"
 								th:value="${categoria.id}" th:text="${categoria.nome}"></option>
 						</select>
-	
+
 						<div class="bw-field-action__icon">
 							<a href="#" data-toggle="modal"
 								data-target="#modalCadastroRapidoCategoria"> <i
@@ -105,27 +108,37 @@
 
 				<div class="form-group date col-sm-4">
 					<label for="dataNascimento">Data Nascimento/Abertura</label> <input
-						data-date-format="DD-MM-YYYY"
-						class="form-control js-campo-estudante" id="dataNascimento"
+						class="form-control" id="dataNascimento" type="date"
 						th:field="*{dataNascimento}">
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="form-group col-sm-4">
-					<label for="documento">CPF/CNPJ</label> <input type="text"
-						class="form-control  js-campo-profissional  js-cpf" id="cpf"
-						th:field="*{documento}">
+				<div class="form-group col-sm-3">
+					<label for="cpfcnpj">CPF/CNPJ</label> <input type="text"
+						class="form-control  cpf" id="cpfcnpj" th:field="*{documento}">
+				</div>
+				
+				<div class="form-group col-sm-3"
+					th:classappend="${#fields.hasErrors('statusSocio')} ? has-error">
+					<label for="statusSocio" class="control-label">Status</label>
+					<div>
+						<th:block th:each="statusSocio : ${statusSocio}">
+							<div class="radio  radio-inline">
+								<input th:id="|id_${statusSocio}|" th:value="${statusSocio}" type="radio" name="statusSocio" th:field="*{statusSocio}"> 
+								<label th:for="|id_${statusSocio}|" th:text="${statusSocio.descricao}" >Ativo</label>
+							</div>
+						</th:block>
+					</div>
 				</div>
 
-				<div class="form-group col-sm-4">
+				<div class="form-group col-sm-3">
 					<label for="tel-residencial">Tel Residencial</label> <input
-						type="text"
-						class="form-control  js-campo-profissional  js-telefone"
-						id="tel-residencial" th:field="*{telefone}">
+						type="text" class="form-control  js-telefone" id="tel-residencial"
+						th:field="*{telefone}">
 				</div>
 
-				<div class="form-group col-sm-4">
+				<div class="form-group col-sm-3">
 					<label for="celular">Celular</label> <input type="text"
 						class="form-control  js-telefone" id="celular"
 						th:field="*{celular}">
@@ -138,47 +151,47 @@
 
 			<div class="row">
 				<div class="form-group col-sm-3">
-					<label for="cep-residencial">Cep</label> <input type="text"
+					<label for="cep">Cep</label> <input type="text"
 						class="form-control  js-campo-profissional  js-cep"
-						id="cep-residencial" th:field="*{endereco.cep}">
+						id="cep" th:field="*{endereco.cep}" onblur="pesquisacep(this.value);">
 				</div>
 
 				<div class="form-group col-sm-6">
-					<label for="rua-residencial">Rua</label> <input type="text"
+					<label for="rua">Rua</label> <input type="text"
 						class="form-control  js-campo-profissional  js-logradouro"
-						id="rua-residencial" th:field="*{endereco.rua}">
+						id="rua" th:field="*{endereco.rua}">
 				</div>
 
 				<div class="form-group col-sm-3">
-					<label for="numero-residencial">Número</label> <input type="text"
+					<label for="numero">Número</label> <input type="text"
 						class="form-control  js-campo-profissional"
-						id="numero-residencial" th:field="*{endereco.numero}">
+						id="numero" th:field="*{endereco.numero}">
 				</div>
 			</div>
 
 			<div class="row">
 
 				<div class="form-group col-sm-3">
-					<label for="complemento-residencial">Complemento</label> <input
+					<label for="complemento">Complemento</label> <input
 						type="text" class="form-control  js-campo-profissional"
-						id="complemento-residencial" th:field="*{endereco.complemento}">
+						id="complemento" th:field="*{endereco.complemento}">
 				</div>
 
 				<div class="form-group col-sm-3">
-					<label for="bairro-residencial">Bairro</label> <input type="text"
+					<label for="bairro">Bairro</label> <input type="text"
 						class="form-control  js-campo-profissional  js-bairro"
-						id="bairro-residencial" th:field="*{endereco.bairro}">
+						id="bairro" th:field="*{endereco.bairro}">
 				</div>
 
 				<div class="form-group col-sm-3">
-					<label for="cidade-residencial">Cidade</label> <input type="text"
+					<label for="cidade">Cidade</label> <input type="text"
 						class="form-control  js-campo-profissional  js-cidade"
-						id="cidade-residencial" th:field="*{endereco.cidade}">
+						id="cidade" th:field="*{endereco.cidade}">
 				</div>
 
 				<div class="form-group col-sm-3">
-					<label for="uf-residencial" class="control-label">UF</label> <select
-						id="uf-residencial"
+					<label for="uf" class="control-label">UF</label> <select
+						id="uf"
 						class="form-control  js-campo-profissional  js-uf"
 						th:field="*{endereco.uf}">
 						<option value="">UF</option>
@@ -225,9 +238,10 @@
 		</form>
 
 	</div>
-	
-	<div class="modal fade" id="modalCadastroRapidoCategoria" tabindex="-1" role="dialog">
-		
+
+	<div class="modal fade" id="modalCadastroRapidoCategoria" tabindex="-1"
+		role="dialog">
+
 		<div class="modal-dialog  modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -236,12 +250,15 @@
 					</button>
 					<h4 class="modal-title">Cadastro de categoria</h4>
 				</div>
-				
+
 				<div class="modal-body">
-					
-					<div class="alert  alert-danger  hidden  js-mensagem-cadastro-rapido-categoria" role="alert"></div>
-					
-					<form class="form-horizontal  js-modal-formulario-categoria" th:action="@{/categorias}">
+
+					<div
+						class="alert  alert-danger  hidden  js-mensagem-cadastro-rapido-categoria"
+						role="alert"></div>
+
+					<form class="form-horizontal  js-modal-formulario-categoria"
+						th:action="@{/categorias}">
 						<div class="form-group">
 							<label class="col-sm-2  control-label" for="nomeCategoria">Nome</label>
 							<div class="col-sm-10">
@@ -249,8 +266,9 @@
 							</div>
 						</div>
 					</form>
-					
-					<button type="button" class="btn btn-primary  js-modal-cadastro-categoria-salvar-btn" >Salvar</button>
+
+					<button type="button"
+						class="btn btn-primary  js-modal-cadastro-categoria-salvar-btn">Salvar</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 				</div>
 			</div>

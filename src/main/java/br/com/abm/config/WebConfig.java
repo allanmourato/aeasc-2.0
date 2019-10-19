@@ -29,6 +29,7 @@ import br.com.abm.controller.DashboardController;
 import br.com.abm.controller.SocioController;
 import br.com.abm.controller.converter.CategoriaConverter;
 import br.com.abm.service.CategoriaSocioService;
+import br.com.abm.service.SocioService;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
@@ -36,7 +37,8 @@ import nz.net.ultraq.thymeleaf.LayoutDialect;
 									    CobrancaController.class, 
 										SocioController.class, 
 										CategoriaSocioController.class,
-										CategoriaSocioService.class})
+										CategoriaSocioService.class,
+										SocioService.class})
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 

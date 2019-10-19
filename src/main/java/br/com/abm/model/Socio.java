@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,8 +18,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "socio")
@@ -39,35 +42,36 @@ public class Socio implements Serializable {
 	@NotBlank(message = "E-Mail é obrigatório")
 	private String email;
 	
-	@NotBlank(message = "Doc de Classe é obrigatório")
 	private String docClasse;
 	
 	@Enumerated(EnumType.STRING)
-	@NotBlank(message = "Tipo de pessoa é obrigatório")
+	@NotNull(message = "Tipo de pessoa é obrigatório")
+	@Column(name = "tipo_pessoa")
 	private TipoPessoa tipoPessoa;
 	
 	@NotBlank(message = "CFP/CNPJ é obrigatório")
 	private String documento;
 	
 	@Enumerated(EnumType.STRING)
+	@NotNull(message = "Status do sócio é obrigatório")
+	@Column(name = "status_socio")
 	private StatusSocio statusSocio;
 	
 	@Column(name = "data_nascimento")
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
 	@Temporal(TemporalType.DATE)
-	@NotBlank(message = "Data de nascimento/abert é obrigatório")
 	private Date dataNascimento;
 	
 	@ManyToOne
 	@JoinColumn(name = "codigo_categoria")
-	@NotBlank(message = "Categoria é obrigatório")
+	@NotNull(message = "Categoria é obrigatório")
 	private CategoriaSocio categoriaSocio;
 	
 	private String celular;
 	
 	private String telefone;
 	
-	@ManyToOne
-	@JoinColumn(name = "codigo_endereco")
+	@Embedded
 	private Endereco endereco;
 	
 	
@@ -186,7 +190,8 @@ public class Socio implements Serializable {
 	}
 
 	public void setDataDeCadastro(Date dataDeCadastro) {
-		this.dataDeCadastro = dataDeCadastro;
+		Date dataAtual = new Date();
+		this.dataDeCadastro = dataAtual;
 	}
 
 	public String getSenhaDeSocio() {
@@ -202,7 +207,7 @@ public class Socio implements Serializable {
 	}
 
 	public void setDesligamento(Desligamento desligamento) {
-		this.desligamento = desligamento;
+		this.desligamento = Desligamento.NAO;
 	}
 
 	@Override

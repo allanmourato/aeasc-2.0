@@ -18,8 +18,8 @@ public class CategoriaSocioService {
 	
 	@Transactional
 	public CategoriaSocio salvar(CategoriaSocio categoriaSocio) throws CategoriaSocioJaCadastradadoException {
-		Optional<CategoriaSocio> estiloOptional = categorias.findByNomeIgnoreCase(categoriaSocio.getNome());
-		if (estiloOptional.isPresent()) {
+		Optional<CategoriaSocio> categoriaOptional = categorias.findByNomeIgnoreCase(categoriaSocio.getNome());
+		if (categoriaOptional.isPresent()) {
 			throw new CategoriaSocioJaCadastradadoException("Nome do estilo já cadastrado");
 		}
 		
