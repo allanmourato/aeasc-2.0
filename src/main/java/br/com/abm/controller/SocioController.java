@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,10 +16,13 @@ import br.com.abm.model.Socio;
 import br.com.abm.model.StatusSocio;
 import br.com.abm.model.TipoPessoa;
 import br.com.abm.repository.Categorias;
+import br.com.abm.repository.Socios;
+import br.com.abm.repository.filter.SocioFilter;
 import br.com.abm.service.SocioService;
 import br.com.abm.service.exception.CategoriaSocioJaCadastradadoException;
 
 @Controller
+@RequestMapping("/socio")
 public class SocioController {
 	
 	@Autowired
@@ -26,9 +30,12 @@ public class SocioController {
 	
 	@Autowired
 	private Categorias categorias;
+	
+	@Autowired
+	private Socios socios;
 
 	
-	@RequestMapping("/cadastro/socio")
+	@RequestMapping("/novo")
 	public ModelAndView cadastroSocio(Socio socio) {
 		ModelAndView mv = new ModelAndView("/socio/CadastroSocio");
 		mv.addObject("categorias", categorias.findAll());
@@ -37,7 +44,7 @@ public class SocioController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/cadastro/socio", method = RequestMethod.POST)
+	@RequestMapping(value = "/novo", method = RequestMethod.POST)
 	public ModelAndView cadastrar(@Valid Socio socio, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if(result.hasErrors()) {
@@ -50,7 +57,19 @@ public class SocioController {
 			e.printStackTrace();
 		}
 		attributes.addFlashAttribute("mensagem", "Sócio cadastrado com sucesso!");
-		return new ModelAndView("redirect:/cadastro/socio");
+		return new ModelAndView("redirect:/socio/novo");
+	}
+	
+	@GetMapping
+	public ModelAndView pesquisa(SocioFilter socioFilter, BindingResult result) {
+		ModelAndView mv = new ModelAndView("/socio/PesquisaSocio");
+		mv.addObject("categorias", categorias.findAll());
+		mv.addObject("statusSocio", StatusSocio.values());
+		
+		mv.addObject("socios", socios.filtrar(socioFilter));
+		
+		return mv;
+		
 	}
 	
 

@@ -46,7 +46,6 @@ public class Socio implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	@NotNull(message = "Tipo de pessoa é obrigatório")
-	@Column(name = "tipo_pessoa")
 	private TipoPessoa tipoPessoa;
 	
 	@NotBlank(message = "CFP/CNPJ é obrigatório")
@@ -54,7 +53,6 @@ public class Socio implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	@NotNull(message = "Status do sócio é obrigatório")
-	@Column(name = "status_socio")
 	private StatusSocio statusSocio;
 	
 	@Column(name = "data_nascimento")
