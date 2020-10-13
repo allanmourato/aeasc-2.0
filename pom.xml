@@ -52,7 +52,7 @@
 		<commons-beanutils-version>1.9.2</commons-beanutils-version>
 
 		<!-- Junit -->
-		<junit-version>4.10</junit-version>
+		<junit-version>4.13.1</junit-version>
 
 		<!-- Bopepo -->
 		<bopepo-version>0.2.3-SNAPSHOT</bopepo-version>
