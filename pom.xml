@@ -61,7 +61,7 @@
 		<texgit-version>0.2.0-SNAPSHOT</texgit-version>
 
 		<!-- Commons I/O -->
-		<commons-version>2.4</commons-version>
+		<commons-version>2.7</commons-version>
 
 	</properties>
 
